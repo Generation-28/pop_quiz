@@ -43,13 +43,13 @@ class ExamPageTablet extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     if (examController.isLastQuestion) {
-                      Navigator.pushAndRemoveUntil(
+                      examController.submitUnansweredQuestions();
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
                               ResultPage(questions: questions),
                         ),
-                        (Route<dynamic> route) => false,
                       );
                     } else {
                       examController.nextQuestion();

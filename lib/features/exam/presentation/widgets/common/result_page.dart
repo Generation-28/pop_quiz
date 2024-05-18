@@ -11,9 +11,10 @@ class ResultPage extends StatelessWidget {
     final correctAnswers = questions
         .where((q) => q.userSelectedAnswerId == q.correctAnswerId)
         .length;
-    final averageTime =
-        questions.map((q) => q.timeTaken!.inSeconds).reduce((a, b) => a + b) /
-            questions.length;
+    final averageTime = questions
+            .map((q) => q.timeTaken?.inSeconds ?? 0)
+            .reduce((a, b) => a + b) /
+        questions.length;
 
     return Scaffold(
       appBar: AppBar(title: Text('Results')),

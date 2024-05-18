@@ -43,6 +43,7 @@ class ExamPageMobile extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     if (examController.isLastQuestion) {
+                      examController.submitUnansweredQuestions();
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(

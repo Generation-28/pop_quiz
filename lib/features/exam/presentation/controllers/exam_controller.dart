@@ -41,10 +41,23 @@ class ExamController extends StateNotifier<AsyncValue<List<Question>>> {
     });
   }
 
+  void submitUnansweredQuestions() {
+    state = state.whenData((questions) {
+      return questions.map((question) {
+        if (question.userSelectedAnswerId == null) {
+          return question.copyWith(
+            userSelectedAnswerId: '',
+            timeTaken: Duration.zero,
+          );
+        }
+        return question;
+      }).toList();
+    });
+  }
+
   void nextQuestion() {
     if (_currentQuestionIndex < (state.value?.length ?? 0) - 1) {
       _currentQuestionIndex++;
-      // Notify listeners about the change
       state = AsyncValue.data(state.value!);
     }
   }
@@ -52,7 +65,6 @@ class ExamController extends StateNotifier<AsyncValue<List<Question>>> {
   void previousQuestion() {
     if (_currentQuestionIndex > 0) {
       _currentQuestionIndex--;
-      // Notify listeners about the change
       state = AsyncValue.data(state.value!);
     }
   }
