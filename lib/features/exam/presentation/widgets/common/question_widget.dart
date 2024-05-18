@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pop_quiz/features/exam/domain/entities/question.dart';
@@ -15,6 +16,14 @@ class QuestionWidget extends ConsumerStatefulWidget {
 class _QuestionWidgetState extends ConsumerState<QuestionWidget> {
   String? _selectedAnswerId;
   bool _hasSubmitted = false;
+  Timer? _timer;
+  int _startTime = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
 
   @override
   void didUpdateWidget(covariant QuestionWidget oldWidget) {
@@ -24,7 +33,32 @@ class _QuestionWidgetState extends ConsumerState<QuestionWidget> {
         _selectedAnswerId = null;
         _hasSubmitted = false;
       });
+      _resetTimer();
     }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    _startTime = DateTime.now().millisecondsSinceEpoch;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {});
+    });
+  }
+
+  void _resetTimer() {
+    _timer?.cancel();
+    _startTimer();
+  }
+
+  Duration _timeTaken() {
+    final endTime = DateTime.now().millisecondsSinceEpoch;
+    final timeTaken = Duration(milliseconds: endTime - _startTime);
+    return timeTaken;
   }
 
   @override
@@ -91,12 +125,11 @@ class _QuestionWidgetState extends ConsumerState<QuestionWidget> {
                         ref.read(examControllerProvider.notifier).submitAnswer(
                               widget.question.id.toString(),
                               _selectedAnswerId!,
-                              Duration(
-                                  seconds:
-                                      30), // Replace with actual time taken if available
+                              _timeTaken(),
                             );
                         setState(() {
                           _hasSubmitted = true;
+                          _timer?.cancel();
                         });
                       },
                 child: Text('Submit'),
