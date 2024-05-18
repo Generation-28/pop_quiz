@@ -1,0 +1,88 @@
+{
+    "core": {
+        "constants": [
+            "constants.dart"
+        ],
+        "exceptions": [
+            "custom_exceptions.dart"
+        ],
+        "failures": [
+            "failures.dart"
+        ],
+        "usecases": [
+            "usecase.dart"
+        ],
+        "utils": [
+            "utils.dart"
+        ]
+    },
+    "features": {
+        "exam": {
+            "data": {
+                "datasources": [
+                    "exam_local_data_source.dart",
+                    "exam_local_data_source_impl.dart",
+                    "exam_remote_data_source.dart",
+                    "exam_remote_data_source_impl.dart"
+                ],
+                "models": [
+                    "question_model.dart"
+                ],
+                "repositories": [
+                    "exam_repository.dart",
+                    "exam_repository_impl.dart"
+                ]
+            },
+            "domain": {
+                "entities": [
+                    "question.dart"
+                ],
+                "repositories": [
+                    "exam_repository.dart"
+                ],
+                "usecases": [
+                    "get_questions.dart"
+                ]
+            },
+            "presentation": {
+                "controllers": [
+                    "exam_controller.dart"
+                ],
+                "states": [
+                    "exam_state.dart"
+                ],
+                "widgets": {
+                    "responsive": [
+                        "exam_page_mobile.dart",
+                        "exam_page_tablet.dart",
+                        "exam_page_desktop.dart"
+                    ],
+                    "common": [
+                        "question_widget.dart",
+                        "explanation_widget.dart",
+                        "result_page.dart",
+                        "other_common_widgets.dart"
+                    ]
+                }
+            }
+        }
+    },
+    "services": {
+        "auth": [
+            "auth_service.dart",
+            "firebase_auth_service_impl.dart"
+        ],
+        "network_info": [
+            "network_info_service.dart",
+            "connectivity_network_info_service_impl.dart"
+        ],
+        "local_storage": [
+            "local_storage_service.dart",
+            "isar_local_storage_service_impl.dart"
+        ],
+        "remote_storage": [
+            "remote_storage_service.dart",
+            "firestore_remote_storage_service_impl.dart"
+        ]
+    }
+}

@@ -1,0 +1,31 @@
+name: pop_quiz
+description: A new Flutter project.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.0.3 <4.0.0"
+
+dependencies:
+  build_runner: ^2.4.9
+  cloud_firestore: ^4.14.0
+  connectivity_plus: ^5.0.2
+  equatable: ^2.0.5
+  firebase_auth: ^4.16.0
+  firebase_core: ^2.24.2
+  firebase_storage: ^11.6.0
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.4.10
+  isar: ^3.1.0+1
+  isar_generator: ^3.1.0+1
+  path_provider: ^2.1.2
+  riverpod: ^2.5.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
