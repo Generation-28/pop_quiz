@@ -10,6 +10,7 @@ final examControllerProvider =
 
 class ExamController extends StateNotifier<AsyncValue<List<Question>>> {
   final GetQuestions getQuestions;
+  int _currentQuestionIndex = 0;
 
   ExamController(this.getQuestions) : super(const AsyncValue.loading()) {
     loadQuestions();
@@ -40,7 +41,29 @@ class ExamController extends StateNotifier<AsyncValue<List<Question>>> {
     });
   }
 
+  void nextQuestion() {
+    if (_currentQuestionIndex < (state.value?.length ?? 0) - 1) {
+      _currentQuestionIndex++;
+      // Notify listeners about the change
+      state = AsyncValue.data(state.value!);
+    }
+  }
+
+  void previousQuestion() {
+    if (_currentQuestionIndex > 0) {
+      _currentQuestionIndex--;
+      // Notify listeners about the change
+      state = AsyncValue.data(state.value!);
+    }
+  }
+
+  int get currentQuestionIndex => _currentQuestionIndex;
+  Question? get currentQuestion => state.value?[currentQuestionIndex];
+  bool get isLastQuestion =>
+      _currentQuestionIndex == (state.value?.length ?? 1) - 1;
+
   void resetExam() {
+    _currentQuestionIndex = 0;
     loadQuestions();
   }
 }

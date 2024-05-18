@@ -1,43 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pop_quiz/features/exam/presentation/controllers/exam_controller.dart';
-import 'package:pop_quiz/features/exam/presentation/widgets/common/question_widget.dart';
-import 'package:pop_quiz/features/exam/presentation/widgets/common/result_page.dart';
+import 'package:pop_quiz/features/exam/presentation/widgets/responsive/exam_page_mobile.dart';
+import 'package:pop_quiz/features/exam/presentation/widgets/responsive/exam_page_tablet.dart';
+import 'package:pop_quiz/features/exam/presentation/widgets/responsive/exam_page_desktop.dart';
 
 class ExamPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncQuestions = ref.watch(examControllerProvider);
+    final examController = ref.read(examControllerProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(title: Text('Exam')),
-      body: asyncQuestions.when(
-        data: (questions) {
-          return ListView.builder(
-            itemCount: questions.length,
-            itemBuilder: (context, index) {
-              final question = questions[index];
-              return QuestionWidget(question: question);
-            },
-          );
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth < 600) {
+            return ExamPageMobile(
+              asyncQuestions: asyncQuestions,
+              examController: examController,
+            );
+          } else if (constraints.maxWidth < 1200) {
+            return ExamPageTablet(
+              asyncQuestions: asyncQuestions,
+              examController: examController,
+            );
+          } else {
+            return ExamPageDesktop(
+              asyncQuestions: asyncQuestions,
+              examController: examController,
+            );
+          }
         },
-        loading: () => Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('Error: $error')),
-      ),
-      floatingActionButton: asyncQuestions.maybeWhen(
-        data: (questions) => questions.isNotEmpty
-            ? FloatingActionButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ResultPage(questions: questions)),
-                  );
-                },
-                child: Icon(Icons.check),
-              )
-            : null,
-        orElse: () => null,
       ),
     );
   }
