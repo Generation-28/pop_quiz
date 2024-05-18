@@ -5,9 +5,8 @@ import 'package:pop_quiz/features/exam/presentation/controllers/exam_controller.
 
 class QuestionWidget extends ConsumerStatefulWidget {
   final Question question;
-  final VoidCallback onReset;
 
-  QuestionWidget({required this.question, required this.onReset});
+  QuestionWidget({required this.question});
 
   @override
   _QuestionWidgetState createState() => _QuestionWidgetState();
@@ -25,7 +24,6 @@ class _QuestionWidgetState extends ConsumerState<QuestionWidget> {
         _selectedAnswerId = null;
         _hasSubmitted = false;
       });
-      widget.onReset();
     }
   }
 

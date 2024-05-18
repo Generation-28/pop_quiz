@@ -8,27 +8,33 @@ class ResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int correctAnswers = questions
-        .where((question) =>
-            question.userSelectedAnswerId == question.correctAnswerId)
+    final correctAnswers = questions
+        .where((q) => q.userSelectedAnswerId == q.correctAnswerId)
         .length;
-    Duration totalTime = questions.fold(Duration.zero,
-        (sum, question) => sum + (question.timeTaken ?? Duration.zero));
-    double averageTime =
-        questions.isNotEmpty ? totalTime.inSeconds / questions.length : 0;
+    final averageTime =
+        questions.map((q) => q.timeTaken!.inSeconds).reduce((a, b) => a + b) /
+            questions.length;
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
+    return Scaffold(
+      appBar: AppBar(title: Text('Results')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Results:',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            SizedBox(height: 16),
             Text('Correct Answers: $correctAnswers/${questions.length}'),
             Text(
                 'Average Time per Question: ${averageTime.toStringAsFixed(2)} seconds'),
-            // Additional analytics and insights can be added here
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                // Functionality to be implemented later
+              },
+              child: Text('View Details'),
+            ),
           ],
         ),
       ),

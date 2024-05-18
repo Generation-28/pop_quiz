@@ -27,7 +27,6 @@ class ExamPageDesktop extends StatelessWidget {
             Expanded(
               child: QuestionWidget(
                 question: currentQuestion,
-                onReset: () {},
               ),
             ),
             Row(
@@ -44,12 +43,13 @@ class ExamPageDesktop extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     if (examController.isLastQuestion) {
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
                               ResultPage(questions: questions),
                         ),
+                        (Route<dynamic> route) => false,
                       );
                     } else {
                       examController.nextQuestion();
